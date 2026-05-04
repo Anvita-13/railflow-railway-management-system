@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Management | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="top-header">
+        <div class="brand" onclick="appContext.switchTab('schedule')">
+            <h2>Railway Management</h2>
+        </div>
+        <div class="datetime">
+            <span id="current-day"></span>, <span id="current-date"></span> &nbsp;|&nbsp; <span id="current-time"></span>
+        </div>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <ul class="nav-links">
+                <li class="nav-item active" data-target="schedule" onclick="appContext.switchTab('schedule')">Schedule</li>
+                <li class="nav-item" data-target="passengers" onclick="appContext.switchTab('passengers')">Passengers</li>
+                <li class="nav-item" data-target="reservations" onclick="appContext.switchTab('reservations')">Reservations</li>
+                <li class="nav-item" data-target="payment-status" onclick="appContext.switchTab('payment-status')">Payment Status</li>
+                <li class="nav-item" data-target="profile" onclick="appContext.switchTab('profile')">Profile</li>
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            <!-- Schedule Tab -->
+            <section id="tab-schedule" class="tab-content active">
+                <div class="section-header">
+                    <h2>Train Schedule</h2>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Train ID</th>
+                                <th>Name</th>
+                                <th>Src Station</th>
+                                <th>Dept Time</th>
+                                <th>Dept Date</th>
+                                <th>Platform</th>
+                                <th>Dest Station</th>
+                                <th>Arr Time</th>
+                                <th>Arr Date</th>
+                                <th>Platform</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Passengers Tab -->
+            <section id="tab-passengers" class="tab-content">
+                <div class="section-header">
+                    <h2>Passengers</h2>
+                    <div class="header-actions">
+                        <select id="train-selector" class="form-select">
+                            <option value="">Select a Train</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Ticket ID</th>
+                                <th>Passenger ID</th>
+                                <th>Passenger Name</th>
+                                <th>Ticket Status</th>
+                                <th>Reservation</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="passengers-tbody">
+                            <tr><td colspan="7" style="text-align: center;">Select a train above</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="actions-bar" id="passengers-actions" style="display: none;">
+                    <button class="btn primary-btn" onclick="passengerModule.initAddRow()">Add Passenger</button>
+                    <button class="btn primary-btn" onclick="passengerModule.deleteSelected()">Delete Selected</button>
+                </div>
+
+                <!-- ADD PASSENGER FLOATING WIDGET -->
+                <div id="add-passenger-form" class="passenger-form-card" style="display: none;">
+                    <h3>Add New Passenger</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="new-passenger-name" placeholder="E.g. John Doe">
+                        </div>
+                        <div class="inline-group">
+                            <div class="form-group" style="flex: 0.5;">
+                                <label>Age</label>
+                                <input type="number" id="new-age" placeholder="Age">
+                            </div>
+                            <div class="form-group" style="flex: 0.5;">
+                                <label>Gender</label>
+                                <select id="new-gender">
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                    <option value="O">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="text" id="new-phone" placeholder="Phone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Reservation</label>
+                            <select id="new-reservation-status" onchange="passengerModule.toggleReservationFields()">
+                                <option value="" disabled selected>Select option</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Not Applied">Not Applied</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="res-status-group" style="display:none;">
+                            <label>Reservation Status</label>
+                            <select id="new-res-type">
+                                <option value="CNF">CNF</option>
+                                <option value="RAC">RAC</option>
+                                <option value="WL">WL</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Payment</label>
+                            <select id="new-payment-status" onchange="passengerModule.togglePaymentFields()">
+                                <option value="" disabled selected>Select option</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Not Paid">Not Paid</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="pay-mode-group" style="display:none;">
+                            <label>Payment Mode</label>
+                            <select id="new-pay-mode">
+                                <option value="UPI">UPI</option>
+                                <option value="Credit Card">Credit Card</option>
+                                <option value="Debit Card">Debit Card</option>
+                                <option value="Net Banking">Net Banking</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ticket Status</label>
+                            <select id="new-ticket-status" disabled>
+                                <option value="" disabled selected>Fill Reservation & Payment first</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Confirmed">Confirmed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn primary-btn" onclick="passengerModule.saveNewPassenger()">Save Passenger</button>
+                        <button class="btn" onclick="passengerModule.cancelAdd()">Cancel</button>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Reservations Tab -->
+            <section id="tab-reservations" class="tab-content">
+                <div class="section-header">
+                    <h2>Reservations List</h2>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Reservation ID</th>
+                                <th>Ticket ID</th>
+                                <th>Train ID</th>
+                                <th>Train Name</th>
+                                <th>Passenger ID</th>
+                                <th>Passenger Name</th>
+                                <th>Seat No.</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservations-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Payment Status Tab -->
+            <section id="tab-payment-status" class="tab-content">
+                <div class="section-header">
+                    <h2>Pending Payments (Not Paid)</h2>
+                </div>
+                <!-- Not Paid Table -->
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Ticket ID</th>
+                                <th>Passenger ID</th>
+                                <th>Passenger Name</th>
+                                <th>Train ID</th>
+                                <th>Train Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="not-paid-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions-bar" id="not-paid-actions">
+                    <button class="btn primary-btn" onclick="paymentModule.markSelectedAsPaid()">Payment Completed</button>
+                </div>
+
+                <!-- Payment Mode Selection Box -->
+                <div id="payment-mode-box" class="passenger-form-card" style="display: none; max-width: 500px; margin-left: auto;">
+                    <h3>Select Mode of Payment</h3>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px; cursor:pointer; font-size: 1rem;">
+                            <input type="radio" name="pay_mode" value="UPI" checked style="width: 18px; height: 18px;">
+                            UPI
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px; cursor:pointer; font-size: 1rem;">
+                            <input type="radio" name="pay_mode" value="Credit Card" style="width: 18px; height: 18px;">
+                            Credit Card
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px; cursor:pointer; font-size: 1rem;">
+                            <input type="radio" name="pay_mode" value="Debit Card" style="width: 18px; height: 18px;">
+                            Debit Card
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px; cursor:pointer; font-size: 1rem;">
+                            <input type="radio" name="pay_mode" value="Net Banking" style="width: 18px; height: 18px;">
+                            Net Banking
+                        </label>
+                    </div>
+                    <div class="form-actions" style="margin-top: 20px;">
+                        <button class="btn primary-btn" onclick="paymentModule.confirmAndSavePayment()">Save Payment</button>
+                        <button class="btn" onclick="paymentModule.cancelPayment()">Cancel</button>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 40px;">
+                    <h2>Completed Payments (Paid)</h2>
+                </div>
+                <!-- Paid Table -->
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Ticket ID</th>
+                                <th>Passenger ID</th>
+                                <th>Passenger Name</th>
+                                <th>Train ID</th>
+                                <th>Train Name</th>
+                                <th>Amount</th>
+                                <th>Mode</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paid-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Profile Tab -->
+            <section id="tab-profile" class="tab-content">
+                <div class="section-header">
+                    <h2>Profile Information</h2>
+                </div>
+                <div class="profile-container">
+                    <div id="profile-display" class="profile-display">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <div class="display-field" id="disp-username">-</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <div class="display-field" id="disp-fullname">-</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <div class="display-field" id="disp-role">-</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <div class="display-field" id="disp-phone">-</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Mail ID</label>
+                                <div class="display-field" id="disp-email">-</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <div class="display-field" id="disp-dob">-</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="display-field" id="disp-password">••••••••</div>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="profile-form" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="prof-username" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="prof-fullname" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select id="prof-role" required>
+                                    <option value="Chief Controller">Chief Controller</option>
+                                    <option value="Operations Manager">Operations Manager</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="prof-phone">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Mail ID</label>
+                                <input type="email" id="prof-email">
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input type="date" id="prof-dob">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div style="position: relative;">
+                                    <input type="password" id="prof-password" required>
+                                    <button type="button" id="toggle-password" class="toggle-pwd-btn" onclick="profileModule.togglePasswordVisibility()">Show</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary-btn">Save</button>
+                            <button type="button" class="btn primary-btn" onclick="profileModule.cancelEdit()">Cancel</button>
+                        </div>
+                    </form>
+                    <div class="profile-actions" id="profile-actions">
+                        <button class="btn primary-btn" onclick="profileModule.enableEdit()">Update Profile</button>
+                        <button class="btn primary-btn" onclick="profileModule.logout()">Logout</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals or Popups could go here -->
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/modules/schedule.js"></script>
+    <script src="js/modules/passengers.js"></script>
+    <script src="js/modules/reservations.js"></script>
+    <script src="js/modules/payments.js"></script>
+    <script src="js/modules/profile.js"></script>
+</body>
+</html>
