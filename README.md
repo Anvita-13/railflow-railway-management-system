@@ -8,7 +8,7 @@ RailServe is a database-driven web application developed as part of the Database
 
 The Railway Station Management System is designed to efficiently manage railway operations through a structured and centralized database system. It integrates multiple modules such as train scheduling, passenger management, ticket booking, reservation tracking, and payment handling.
 
-The system ensures data consistency, reduces redundancy, and improves operational efficiency by storing all information in a relational database. :contentReference[oaicite:1]{index=1}
+The system ensures data consistency, reduces redundancy, and improves operational efficiency by storing all information in a relational database.
 
 ---
 
@@ -16,7 +16,7 @@ The system ensures data consistency, reduces redundancy, and improves operationa
 
 Railway systems handle large volumes of data related to trains, platforms, passengers, reservations, and payments. Manual or disconnected systems lead to redundancy, inconsistency, and inefficiency.
 
-The objective of this project is to design a centralized database system that organizes and manages railway data efficiently using proper database design techniques such as ER modeling, relational schema mapping, and normalization. :contentReference[oaicite:2]{index=2}
+The objective of this project is to design a centralized database system that organizes and manages railway data efficiently using proper database design techniques such as ER modeling, relational schema mapping, and normalization.
 
 ---
 
@@ -26,7 +26,7 @@ The objective of this project is to design a centralized database system that or
 - Integration of all modules into a single system  
 - Real-time data access and updates  
 - Reduced redundancy and improved data consistency  
-- Efficient handling of scheduling, ticketing, and payments :contentReference[oaicite:3]{index=3}  
+- Efficient handling of scheduling, ticketing, and payments
 
 ---
 
@@ -43,7 +43,7 @@ The system follows a three-tier architecture:
 3. **Data Layer (Database)**  
    Oracle SQL for structured data storage  
 
-This architecture ensures scalability, maintainability, and efficient data flow. :contentReference[oaicite:4]{index=4}  
+This architecture ensures scalability, maintainability, and efficient data flow. 
 
 ---
 
@@ -52,7 +52,7 @@ This architecture ensures scalability, maintainability, and efficient data flow.
 - Frontend: HTML, CSS, JavaScript  
 - Backend: Node.js  
 - Database: Oracle SQL  
-- Tools: VS Code :contentReference[oaicite:5]{index=5}  
+- Tools: VS Code 
 
 ---
 
@@ -69,7 +69,7 @@ The system consists of the following relations:
 - RESERVATION  
 - PAYMENT  
 
-All relations are normalized up to **BCNF**, ensuring minimal redundancy and maintaining data integrity. :contentReference[oaicite:6]{index=6}  
+All relations are normalized up to **BCNF**, ensuring minimal redundancy and maintaining data integrity.
 
 ---
 
@@ -82,7 +82,7 @@ All relations are normalized up to **BCNF**, ensuring minimal redundancy and mai
 5. Passenger Management  
 6. Ticket Management  
 7. Reservation Management  
-8. Payment Management :contentReference[oaicite:7]{index=7}  
+8. Payment Management
 
 ---
 
@@ -93,7 +93,7 @@ All relations are normalized up to **BCNF**, ensuring minimal redundancy and mai
 3. Frontend sends requests to backend APIs  
 4. Backend interacts with Oracle database  
 5. Data is processed and returned to frontend  
-6. Updated information is displayed to the user :contentReference[oaicite:8]{index=8}  
+6. Updated information is displayed to the user
 
 ---
 
@@ -109,7 +109,7 @@ All relations are normalized up to **BCNF**, ensuring minimal redundancy and mai
 
 ## Conclusion
 
-The system demonstrates the practical implementation of database design and full-stack development concepts. By automating railway operations and maintaining structured data, the system improves efficiency, reduces errors, and ensures consistency across all modules. :contentReference[oaicite:9]{index=9}  
+The system demonstrates the practical implementation of database design and full-stack development concepts. By automating railway operations and maintaining structured data, the system improves efficiency, reduces errors, and ensures consistency across all modules.
 
 ---
 
@@ -118,7 +118,7 @@ The system demonstrates the practical implementation of database design and full
 - MDN Web Docs – HTML, CSS, JavaScript  
 - JavaScript.info  
 - GeeksforGeeks – DBMS and Normalization  
-- W3Schools – Node.js :contentReference[oaicite:10]{index=10}  
+- W3Schools – Node.js
 
 ---
 
