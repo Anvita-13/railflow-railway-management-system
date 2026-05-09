@@ -122,6 +122,12 @@ The system demonstrates the practical implementation of database design and full
 
 ---
 
+## Contributing
+
+Contributions are welcome. Suggestions, improvements, or issues can be submitted through pull requests or issue tracking.
+
+---
+
 ## Author
 
 Anvita Arun  
